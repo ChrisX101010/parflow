@@ -79,14 +79,11 @@ impl SemanticGraph {
 
     pub fn detect_patterns(&mut self) {
         let node_ids: Vec<u64> = self.nodes.keys().cloned().collect();
-        
+
         for node_id in node_ids {
             if let Some(node) = self.nodes.get(&node_id) {
                 if let Some(pattern) = self.analyze_node_pattern(node) {
-                    self.pattern_cache
-                        .entry(pattern as u64)
-                        .or_insert_with(Vec::new)
-                        .push(node_id);
+                    self.pattern_cache.entry(pattern as u64).or_insert_with(Vec::new).push(node_id);
                 }
             }
         }
@@ -103,9 +100,7 @@ impl SemanticGraph {
                     None
                 }
             }
-            NodeType::ControlFlow if node.children.len() > 3 => {
-                Some(PatternType::MapReduce)
-            }
+            NodeType::ControlFlow if node.children.len() > 3 => Some(PatternType::MapReduce),
             NodeType::Pattern(pattern_type) => Some(pattern_type.clone()),
             _ => None,
         }
@@ -130,7 +125,7 @@ impl SemanticGraph {
     pub fn calculate_semantic_hash(&self) -> u64 {
         use blake3::Hasher;
         let mut hasher = Hasher::new();
-        
+
         for node_id in &self.root_nodes {
             if let Some(node) = self.nodes.get(node_id) {
                 hasher.update(&node.id.to_le_bytes());
@@ -138,7 +133,7 @@ impl SemanticGraph {
                 self.hash_node_tree(&mut hasher, *node_id);
             }
         }
-        
+
         let hash = hasher.finalize();
         u64::from_le_bytes(hash.as_bytes()[0..8].try_into().unwrap())
     }

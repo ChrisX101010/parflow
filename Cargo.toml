@@ -16,6 +16,15 @@ members = [
     "parflow-test-orchestrator",
     "parflow-system-optimizer",
     "parflow-live-collab",
-    "semantic-compiler",
+    "semantic-compiler", "parflow-kernel-compat",
+    "parflow-kernel-compat",
 ]
 resolver = "2"
+
+[workspace.dependencies]
+thiserror = "1.0"
+log = "0.4"
+num_cpus = "1.16"
+page_size = "0.4"
+spin = "0.9"
+libc = "0.2"

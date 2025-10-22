@@ -1,12 +1,12 @@
-use parflow_mirror::{MirroringEngine, LanguageTranslator};
+use parflow_mirror::{LanguageTranslator, MirroringEngine};
 
 #[tokio::main]
 async fn main() {
     println!("🧠 Testing ParFlow Mirroring Engine...");
-    
+
     let engine = MirroringEngine::new();
     let translator = LanguageTranslator;
-    
+
     // Test repository analysis
     match engine.analyze_repository("./example-project").await {
         Ok(analysis) => {
@@ -14,8 +14,9 @@ async fn main() {
             println!("  Languages: {:?}", analysis.languages);
             println!("  Estimated improvement: {:.1}x", analysis.estimated_improvement);
             for suggestion in &analysis.mirroring_suggestions {
-                println!("  💡 {} (Effort: {}, Gain: {:.1}x)", 
-                    suggestion.description, 
+                println!(
+                    "  💡 {} (Effort: {}, Gain: {:.1}x)",
+                    suggestion.description,
                     suggestion.effort_estimate,
                     suggestion.estimated_performance_gain
                 );
@@ -23,16 +24,16 @@ async fn main() {
         }
         Err(e) => println!("❌ Analysis failed: {}", e),
     }
-    
+
     // Test pattern translation
     println!("\n🔄 Testing Pattern Translation:");
     let rust_fib = translator.translate_pattern(
-        semantic_compiler::PatternType::FibonacciLike, 
-        "python", 
-        "rust"
+        semantic_compiler::PatternType::FibonacciLike,
+        "python",
+        "rust",
     );
     println!("Python → Rust Fibonacci:\n{}", rust_fib);
-    
+
     // Test codebase mirroring
     match engine.mirror_codebase("./legacy-python", "rust").await {
         Ok(result) => {
@@ -45,6 +46,6 @@ async fn main() {
         }
         Err(e) => println!("❌ Mirroring failed: {}", e),
     }
-    
+
     println!("✅ Mirroring Engine test completed!");
 }

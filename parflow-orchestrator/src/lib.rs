@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use colored::*;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -32,18 +32,20 @@ pub struct MultiLanguageOrchestrator;
 
 impl MultiLanguageOrchestrator {
     pub async fn execute_workflow(workflow: MultiLanguageWorkflow) -> Vec<ExecutionResult> {
-        println!("{} {}", "🚀 Executing Multi-Language Workflow:".bright_green().bold(), workflow.name.bright_cyan());
-        
+        println!(
+            "{} {}",
+            "🚀 Executing Multi-Language Workflow:".bright_green().bold(),
+            workflow.name.bright_cyan()
+        );
+
         let mut results = Vec::new();
 
         if workflow.concurrent {
             // Execute all tasks concurrently (mock implementation)
             let mut handles = Vec::new();
-            
+
             for task in workflow.tasks {
-                let handle = tokio::spawn(async move {
-                    Self::execute_task_mock(task).await
-                });
+                let handle = tokio::spawn(async move { Self::execute_task_mock(task).await });
                 handles.push(handle);
             }
 
@@ -66,8 +68,13 @@ impl MultiLanguageOrchestrator {
 
     async fn execute_task_mock(task: LanguageTask) -> ExecutionResult {
         let language = task.language.clone(); // Clone for use in output
-        println!("{} {} {}", "▶️  Executing".bright_blue(), language.bright_yellow(), "task".bright_blue());
-        
+        println!(
+            "{} {} {}",
+            "▶️  Executing".bright_blue(),
+            language.bright_yellow(),
+            "task".bright_blue()
+        );
+
         // Mock execution - simulate some work
         tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
 
@@ -85,9 +92,11 @@ impl MultiLanguageOrchestrator {
         }
     }
 
-    pub async fn compile_multiple_languages(projects: Vec<&str>) -> HashMap<String, ExecutionResult> {
+    pub async fn compile_multiple_languages(
+        projects: Vec<&str>,
+    ) -> HashMap<String, ExecutionResult> {
         println!("{}", "🔨 Concurrent Multi-Language Compilation".bright_magenta().bold());
-        
+
         let mut compilation_tasks = Vec::new();
 
         for project in projects {
@@ -125,7 +134,7 @@ impl MultiLanguageOrchestrator {
         };
 
         let results = Self::execute_workflow(workflow).await;
-        
+
         let mut result_map = HashMap::new();
         for result in results {
             result_map.insert(result.language.clone(), result);
@@ -139,7 +148,8 @@ impl MultiLanguageOrchestrator {
         println!("{}", "─".repeat(40).bright_cyan());
 
         let total_time: u128 = results.iter().map(|r| r.execution_time).sum();
-        let successful_tasks: Vec<&ExecutionResult> = results.iter().filter(|r| r.success).collect();
+        let successful_tasks: Vec<&ExecutionResult> =
+            results.iter().filter(|r| r.success).collect();
         let failed_tasks: Vec<&ExecutionResult> = results.iter().filter(|r| !r.success).collect();
 
         println!("✅ Successful tasks: {}", successful_tasks.len().to_string().bright_green());
@@ -148,11 +158,19 @@ impl MultiLanguageOrchestrator {
 
         // Find fastest and slowest tasks
         if let Some(fastest) = results.iter().min_by_key(|r| r.execution_time) {
-            println!("⚡ Fastest: {} ({}ms)", fastest.language.bright_green(), fastest.execution_time.to_string().bright_green());
+            println!(
+                "⚡ Fastest: {} ({}ms)",
+                fastest.language.bright_green(),
+                fastest.execution_time.to_string().bright_green()
+            );
         }
 
         if let Some(slowest) = results.iter().max_by_key(|r| r.execution_time) {
-            println!("🐌 Slowest: {} ({}ms)", slowest.language.bright_red(), slowest.execution_time.to_string().bright_red());
+            println!(
+                "🐌 Slowest: {} ({}ms)",
+                slowest.language.bright_red(),
+                slowest.execution_time.to_string().bright_red()
+            );
         }
 
         // Language-specific insights
@@ -166,7 +184,12 @@ impl MultiLanguageOrchestrator {
         println!("\n{}", "🌐 Language Performance".bright_blue().bold());
         for (lang, (total_time, count)) in language_stats {
             let avg_time = total_time / count as u128;
-            println!("   {}: avg {}ms ({} tasks)", lang.bright_yellow(), avg_time.to_string().bright_white(), count.to_string().bright_white());
+            println!(
+                "   {}: avg {}ms ({} tasks)",
+                lang.bright_yellow(),
+                avg_time.to_string().bright_white(),
+                count.to_string().bright_white()
+            );
         }
     }
 }

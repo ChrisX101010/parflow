@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use anyhow::Result;
 use colored::*;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestEnvironment {
@@ -44,33 +44,32 @@ impl TestOrchestrator {
         Self
     }
 
-    pub async fn setup_multi_language_test_env(&self, languages: &[&str]) -> Result<Vec<TestEnvironment>> {
+    pub async fn setup_multi_language_test_env(
+        &self,
+        languages: &[&str],
+    ) -> Result<Vec<TestEnvironment>> {
         println!("{} {:?}", "🧪 Setting up test environments for:".bright_green(), languages);
-        Ok(vec![
-            TestEnvironment {
-                name: "rust-tests".to_string(),
-                language: "rust".to_string(),
-            }
-        ])
+        Ok(vec![TestEnvironment { name: "rust-tests".to_string(), language: "rust".to_string() }])
     }
 
-    pub async fn run_cross_language_tests(&self, _environments: &[TestEnvironment]) -> Result<Vec<TestResult>> {
+    pub async fn run_cross_language_tests(
+        &self,
+        _environments: &[TestEnvironment],
+    ) -> Result<Vec<TestResult>> {
         println!("{}", "🚀 Running cross-language tests...".bright_blue());
-        Ok(vec![
-            TestResult {
-                environment: "rust-tests".to_string(),
-                tests_passed: 10,
-                tests_failed: 0,
-                duration_seconds: 2.5,
-                coverage_percentage: 85.0,
-                // ADD THE PERFORMANCE METRICS
-                performance_metrics: TestPerformance {
-                    execution_time_ms: 8500,
-                    memory_usage_mb: 120.5,
-                    cpu_usage_percent: 65.0,
-                },
-            }
-        ])
+        Ok(vec![TestResult {
+            environment: "rust-tests".to_string(),
+            tests_passed: 10,
+            tests_failed: 0,
+            duration_seconds: 2.5,
+            coverage_percentage: 85.0,
+            // ADD THE PERFORMANCE METRICS
+            performance_metrics: TestPerformance {
+                execution_time_ms: 8500,
+                memory_usage_mb: 120.5,
+                cpu_usage_percent: 65.0,
+            },
+        }])
     }
 
     pub async fn analyze_test_performance(&self, results: &[TestResult]) -> Result<TestAnalysis> {

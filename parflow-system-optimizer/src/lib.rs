@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use anyhow::Result;
 use colored::*;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SystemAnalysis {
@@ -147,7 +147,7 @@ impl SystemOptimizer {
 
     pub async fn analyze_system(&self) -> Result<SystemAnalysis> {
         println!("{}", "🔍 Analyzing system performance and resources...".bright_blue());
-        
+
         Ok(SystemAnalysis {
             memory_usage: MemoryAnalysis {
                 total_memory_gb: 16.0,
@@ -168,33 +168,29 @@ impl SystemOptimizer {
                 network_latency_ms: 25.0,
                 application_performance: vec![],
             },
-            optimization_opportunities: vec![
-                OptimizationOpportunity {
-                    category: OptimizationCategory::Performance,
-                    description: "Enable system-wide performance optimizations".to_string(),
-                    estimated_improvement: 0.25,
-                    effort_required: EffortLevel::Low,
-                    implementation_steps: vec!["Apply performance tuning".to_string()],
-                }
-            ],
+            optimization_opportunities: vec![OptimizationOpportunity {
+                category: OptimizationCategory::Performance,
+                description: "Enable system-wide performance optimizations".to_string(),
+                estimated_improvement: 0.25,
+                effort_required: EffortLevel::Low,
+                implementation_steps: vec!["Apply performance tuning".to_string()],
+            }],
             security_vulnerabilities: vec![],
         })
     }
 
     pub async fn detect_ai_slop(&self, path: &str) -> Result<AISlopAnalysis> {
         println!("{} {}", "🤖 Detecting AI-generated code patterns:".bright_blue(), path);
-        
+
         Ok(AISlopAnalysis {
             total_files: 10,
             files_with_ai_patterns: 2,
-            common_ai_patterns: vec![
-                AIPattern {
-                    pattern_type: "Generic variable names".to_string(),
-                    occurrences: 5,
-                    examples: vec!["data, result".to_string()],
-                    suggestion: "Use descriptive names".to_string(),
-                }
-            ],
+            common_ai_patterns: vec![AIPattern {
+                pattern_type: "Generic variable names".to_string(),
+                occurrences: 5,
+                examples: vec!["data, result".to_string()],
+                suggestion: "Use descriptive names".to_string(),
+            }],
             quality_score: 0.85,
             refactoring_suggestions: vec!["Add proper error handling".to_string()],
         })

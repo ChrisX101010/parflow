@@ -10,7 +10,10 @@ impl CrossLanguageAnalyzer {
         analysis
     }
 
-    pub fn suggest_migration_targets(&self, _source_graph: &SemanticGraph) -> Vec<MigrationSuggestion> {
+    pub fn suggest_migration_targets(
+        &self,
+        _source_graph: &SemanticGraph,
+    ) -> Vec<MigrationSuggestion> {
         // Mock implementation - in real implementation, this would analyze patterns
         vec![
             MigrationSuggestion {
@@ -26,7 +29,7 @@ impl CrossLanguageAnalyzer {
                 suggested_language: "python".to_string(),
                 node_count: 3,
                 estimated_performance_gain: 2.0,
-            }
+            },
         ]
     }
 
@@ -107,7 +110,9 @@ impl ProjectAnalysis {
 
     pub fn optimize_language_boundaries(&mut self) {
         // Simple optimization logic
-        if self.languages.contains(&"python".to_string()) && self.patterns.contains(&PatternType::FibonacciLike) {
+        if self.languages.contains(&"python".to_string())
+            && self.patterns.contains(&PatternType::FibonacciLike)
+        {
             self.suggested_optimizations.push(OptimizationSuggestion {
                 description: "Move Fibonacci-like computations from Python to Rust".to_string(),
                 estimated_improvement: 10.0,
@@ -115,7 +120,9 @@ impl ProjectAnalysis {
             self.performance_estimate *= 3.0;
         }
 
-        if self.languages.contains(&"javascript".to_string()) && self.patterns.contains(&PatternType::MapReduce) {
+        if self.languages.contains(&"javascript".to_string())
+            && self.patterns.contains(&PatternType::MapReduce)
+        {
             self.suggested_optimizations.push(OptimizationSuggestion {
                 description: "Move data processing from JavaScript to Python".to_string(),
                 estimated_improvement: 2.0,

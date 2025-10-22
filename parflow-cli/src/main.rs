@@ -179,7 +179,7 @@ enum Commands {
         project: String,
 
         /// Port to listen on
-        #[arg(short = 'P', long, default_value = "8080")]  // FIXED: Changed from -p to -P
+        #[arg(short = 'P', long, default_value = "8080")] // FIXED: Changed from -p to -P
         port: u16,
     },
     /// Join a live coding session
@@ -214,8 +214,14 @@ fn print_banner() {
     println!("{}", "            _.-~       _.:,           ,:._       ~-._".bright_cyan());
     println!("{}", "        _.-~        /`                        `\\        ~-._".bright_blue());
     println!("{}", "     .' |   _  _  |  ┌─────────────────────┐   |  _  _   | `.".bright_cyan());
-    println!("{}", " _.-~   |   |( \\_\\ \\ │      🌊 PARFLOW     │  / /_/ )|   |   ~-._".bright_blue());
-    println!("{}", "-..__..-''   `_/_/ |_│   Cross-language    │_| _\\_\\_  `''--..__..-".bright_cyan());
+    println!(
+        "{}",
+        " _.-~   |   |( \\_\\ \\ │      🌊 PARFLOW     │  / /_/ )|   |   ~-._".bright_blue()
+    );
+    println!(
+        "{}",
+        "-..__..-''   `_/_/ |_│   Cross-language    │_| _\\_\\_  `''--..__..-".bright_cyan()
+    );
     println!("{}", "                     │  Async Orchestrator │".bright_blue());
     println!("{}", "   ~~--..--~~        │  Powered by Rust 🦀 │        ~~--..--~~".bright_white());
     println!("{}", "                     └─────────────────────┘".bright_cyan());
@@ -232,9 +238,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Commands::RunParallel => {
             println!("{}", "🔄 Running tasks in parallel...".bright_blue().bold());
             let pb = ProgressBar::new_spinner();
-            pb.set_style(ProgressStyle::default_spinner()
-                .tick_strings(&["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"])
-                .template("{spinner} {msg}").unwrap());
+            pb.set_style(
+                ProgressStyle::default_spinner()
+                    .tick_strings(&["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"])
+                    .template("{spinner} {msg}")
+                    .unwrap(),
+            );
             pb.set_message("Executing parallel tasks...");
 
             let results = run_example_par().await;
@@ -245,9 +254,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Commands::RunSequential => {
             println!("{}", "➡️  Running tasks sequentially...".bright_blue().bold());
             let pb = ProgressBar::new_spinner();
-            pb.set_style(ProgressStyle::default_spinner()
-                .tick_strings(&["▹▹▹▹▹", "▸▹▹▹▹", "▹▸▹▹▹", "▹▹▸▹▹", "▹▹▹▸▹", "▹▹▹▹▸"])
-                .template("{spinner} {msg}").unwrap());
+            pb.set_style(
+                ProgressStyle::default_spinner()
+                    .tick_strings(&["▹▹▹▹▹", "▸▹▹▹▹", "▹▸▹▹▹", "▹▹▸▹▹", "▹▹▹▸▹", "▹▹▹▹▸"])
+                    .template("{spinner} {msg}")
+                    .unwrap(),
+            );
             pb.set_message("Executing sequential tasks...");
 
             let results = run_example_seq().await;
@@ -256,8 +268,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("{}: {:?}", "📊 Results".bright_green().bold(), results);
         }
         Commands::Serve { port } => {
-            println!("{} {}", "🌐 Starting REST server on port".bright_cyan().bold(), port.to_string().bright_yellow());
-            println!("{}", "To start the REST server, run: cargo run -p parflow-rest".bright_yellow());
+            println!(
+                "{} {}",
+                "🌐 Starting REST server on port".bright_cyan().bold(),
+                port.to_string().bright_yellow()
+            );
+            println!(
+                "{}",
+                "To start the REST server, run: cargo run -p parflow-rest".bright_yellow()
+            );
             println!("{}", "Or build and run: ./target/release/parflow-rest".bright_yellow());
             println!();
             println!("{}", "📝 Example usage:".bright_white());
@@ -265,12 +284,23 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("{}", "  curl http://localhost:3000/seq".bright_white());
         }
         Commands::Grpc { port } => {
-            println!("{} {}", "🔌 Starting gRPC server on port".bright_magenta().bold(), port.to_string().bright_yellow());
-            println!("{}", "To start the gRPC server, run: cargo run -p parflow-grpc".bright_yellow());
+            println!(
+                "{} {}",
+                "🔌 Starting gRPC server on port".bright_magenta().bold(),
+                port.to_string().bright_yellow()
+            );
+            println!(
+                "{}",
+                "To start the gRPC server, run: cargo run -p parflow-grpc".bright_yellow()
+            );
             println!("{}", "Or build and run: ./target/release/parflow-grpc".bright_yellow());
             println!();
             println!("{}", "📝 The gRPC server will listen on:".bright_white());
-            println!("{} {}", "  Address:".bright_white(), format!("[::1]:{}", port).bright_green());
+            println!(
+                "{} {}",
+                "  Address:".bright_white(),
+                format!("[::1]:{}", port).bright_green()
+            );
         }
         Commands::Start => {
             println!("{}", "🚀 Starting all ParFlow services...".bright_green().bold());
@@ -315,7 +345,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("{}", "  parflow benchmark       - Run benchmarks".bright_white());
             println!("{}", "  parflow transpile       - Transpile code".bright_white());
             println!("{}", "  parflow analyze         - Analyze code patterns".bright_white());
-            println!("{}", "  parflow mirror          - Mirror code to another language".bright_white());
+            println!(
+                "{}",
+                "  parflow mirror          - Mirror code to another language".bright_white()
+            );
             println!("{}", "  parflow optimize        - Optimize project structure".bright_white());
             println!("{}", "  parflow crate-analyze   - Analyze dependencies".bright_white());
             println!("{}", "  parflow test-run        - Run cross-language tests".bright_white());
@@ -368,7 +401,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     }
                 }
                 _ => {
-                    println!("{}", "❌ Unknown benchmark type. Available: fibonacci, simple".bright_red());
+                    println!(
+                        "{}",
+                        "❌ Unknown benchmark type. Available: fibonacci, simple".bright_red()
+                    );
                     println!("{}", "   Using 'simple' benchmark as default...".bright_yellow());
 
                     let results = parflow_bench::BenchmarkRunner::benchmark_simple().await;
@@ -388,7 +424,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::Transpile { from, to, input, output } => {
-            println!("{} {} {} {}", "🔄 Transpiling".bright_blue().bold(), from.bright_yellow(), "→".bright_white(), to.bright_green());
+            println!(
+                "{} {} {} {}",
+                "🔄 Transpiling".bright_blue().bold(),
+                from.bright_yellow(),
+                "→".bright_white(),
+                to.bright_green()
+            );
 
             // Read input file
             let code = match std::fs::read_to_string(&input) {
@@ -402,7 +444,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // Perform transpilation
             let transpiled = match (from.to_lowercase().as_str(), to.to_lowercase().as_str()) {
                 ("python", "rust") => parflow_transpiler::CodeTranspiler::python_to_rust(&code),
-                ("rust", "typescript") => parflow_transpiler::CodeTranspiler::rust_to_typescript(&code),
+                ("rust", "typescript") => {
+                    parflow_transpiler::CodeTranspiler::rust_to_typescript(&code)
+                }
                 _ => {
                     println!("{}", "❌ Unsupported transpilation direction".bright_red());
                     println!("{}", "   Supported: python→rust, rust→typescript".bright_yellow());
@@ -413,7 +457,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // Write output or print to console
             if let Some(output_path) = output {
                 match std::fs::write(&output_path, &transpiled) {
-                    Ok(_) => println!("{} {}", "✅ Transpiled code written to:".bright_green(), output_path.bright_cyan()),
+                    Ok(_) => println!(
+                        "{} {}",
+                        "✅ Transpiled code written to:".bright_green(),
+                        output_path.bright_cyan()
+                    ),
                     Err(e) => println!("{} {}", "❌ Error writing output file:".bright_red(), e),
                 }
             } else {
@@ -439,7 +487,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::Analyze { path, format } => {
-            println!("{} {}", "🔍 Analyzing code patterns in".bright_blue().bold(), path.bright_cyan());
+            println!(
+                "{} {}",
+                "🔍 Analyzing code patterns in".bright_blue().bold(),
+                path.bright_cyan()
+            );
 
             let engine = parflow_mirror::MirroringEngine::new();
 
@@ -449,21 +501,39 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         // JSON output - handle potential serialization errors
                         match serde_json::to_string_pretty(&analysis) {
                             Ok(json) => println!("{}", json),
-                            Err(e) => println!("{} {}", "❌ JSON serialization failed:".bright_red(), e),
+                            Err(e) => {
+                                println!("{} {}", "❌ JSON serialization failed:".bright_red(), e)
+                            }
                         }
                     } else {
                         // Human-readable output
                         println!("\n{}", "📊 CODE ANALYSIS REPORT".bright_green().bold());
                         println!("{}", "─".repeat(40).bright_green());
                         println!("{}: {}", "Project Path".bright_cyan(), analysis.path);
-                        println!("{}: {:?}", "Languages Detected".bright_cyan(), analysis.languages);
-                        println!("{}: {:.1}x", "Estimated Performance Gain".bright_green(), analysis.estimated_improvement);
+                        println!(
+                            "{}: {:?}",
+                            "Languages Detected".bright_cyan(),
+                            analysis.languages
+                        );
+                        println!(
+                            "{}: {:.1}x",
+                            "Estimated Performance Gain".bright_green(),
+                            analysis.estimated_improvement
+                        );
 
                         println!("\n{}", "💡 OPTIMIZATION SUGGESTIONS".bright_yellow().bold());
                         for (i, suggestion) in analysis.mirroring_suggestions.iter().enumerate() {
                             println!("  {}. {}", i + 1, suggestion.description.bright_white());
-                            println!("     {} improvement: {:.1}x", "→".bright_green(), suggestion.estimated_performance_gain);
-                            println!("     {}: {}", "Effort".bright_blue(), suggestion.effort_estimate);
+                            println!(
+                                "     {} improvement: {:.1}x",
+                                "→".bright_green(),
+                                suggestion.estimated_performance_gain
+                            );
+                            println!(
+                                "     {}: {}",
+                                "Effort".bright_blue(),
+                                suggestion.effort_estimate
+                            );
                             println!();
                         }
                     }
@@ -472,7 +542,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::Mirror { source, target, output } => {
-            println!("{} {} {} {}",
+            println!(
+                "{} {} {} {}",
                 "🔄 Mirroring".bright_blue().bold(),
                 source.bright_yellow(),
                 "→".bright_white(),
@@ -504,8 +575,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             match engine.mirror_codebase(&source, &target).await {
                 Ok(result) => {
                     println!("\n{}", "✅ MIRRORING COMPLETE".bright_green().bold());
-                    println!("{}: {} → {}", "Files Processed".bright_cyan(), result.original_file_count, result.mirrored_file_count);
-                    println!("{}: {:.1}x", "Performance Improvement".bright_green(), result.performance_improvement);
+                    println!(
+                        "{}: {} → {}",
+                        "Files Processed".bright_cyan(),
+                        result.original_file_count,
+                        result.mirrored_file_count
+                    );
+                    println!(
+                        "{}: {:.1}x",
+                        "Performance Improvement".bright_green(),
+                        result.performance_improvement
+                    );
 
                     if !result.warnings.is_empty() {
                         println!("\n{}", "⚠️  WARNINGS".bright_yellow().bold());
@@ -518,7 +598,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::MirrorEnhanced { source, target, output: _output, with_deps } => {
-            println!("{} {} {} {}",
+            println!(
+                "{} {} {} {}",
                 "🔄 Enhanced Mirroring:".bright_blue().bold(),
                 source.bright_yellow(),
                 "→".bright_white(),
@@ -531,17 +612,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 match engine.mirror_with_dependencies(&source, &target).await {
                     Ok(result) => {
                         println!("\n{}", "✅ ENHANCED MIRRORING COMPLETE".bright_green().bold());
-                        println!("{}: {} → {}", "Files Processed".bright_cyan(),
+                        println!(
+                            "{}: {} → {}",
+                            "Files Processed".bright_cyan(),
                             result.basic_mirroring.original_file_count,
-                            result.basic_mirroring.mirrored_file_count);
+                            result.basic_mirroring.mirrored_file_count
+                        );
 
                         println!("\n{}", "📦 DEPENDENCY RECOMMENDATIONS".bright_magenta().bold());
                         for suggestion in &result.dependency_recommendations.crate_suggestions {
-                            println!("  • {} ({}) - {}",
+                            println!(
+                                "  • {} ({}) - {}",
                                 suggestion.name.bright_yellow(),
                                 suggestion.version.bright_white(),
-                                suggestion.purpose);
-                            println!("    Equivalent to: {}", suggestion.equivalent_to.bright_cyan());
+                                suggestion.purpose
+                            );
+                            println!(
+                                "    Equivalent to: {}",
+                                suggestion.equivalent_to.bright_cyan()
+                            );
                             println!("    Confidence: {:.0}%", suggestion.confidence * 100.0);
                         }
 
@@ -559,17 +648,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 match engine.mirror_codebase(&source, &target).await {
                     Ok(result) => {
                         println!("\n{}", "✅ MIRRORING COMPLETE".bright_green().bold());
-                        println!("{}: {} → {}", "Files Processed".bright_cyan(),
-                            result.original_file_count, result.mirrored_file_count);
-                        println!("{}: {:.1}x", "Performance Improvement".bright_green(),
-                            result.performance_improvement);
+                        println!(
+                            "{}: {} → {}",
+                            "Files Processed".bright_cyan(),
+                            result.original_file_count,
+                            result.mirrored_file_count
+                        );
+                        println!(
+                            "{}: {:.1}x",
+                            "Performance Improvement".bright_green(),
+                            result.performance_improvement
+                        );
                     }
                     Err(e) => println!("{} {}", "❌ Mirroring failed:".bright_red(), e),
                 }
             }
         }
         Commands::MirrorEnv { source, target, language } => {
-            println!("{} {} {} {}",
+            println!(
+                "{} {} {} {}",
                 "🏗️  Mirroring Development Environment:".bright_blue().bold(),
                 source.bright_yellow(),
                 "→".bright_white(),
@@ -581,8 +678,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             match orchestrator.mirror_development_environment(&source, &target, &language).await {
                 Ok(result) => {
                     println!("\n{}", "✅ ENVIRONMENT MIRRORING COMPLETE".bright_green().bold());
-                    println!("{}: {:?}", "Source Languages".bright_cyan(), result.source_analysis.languages);
-                    println!("{}: {}", "Target Language".bright_cyan(), result.target_recommendations.target_language);
+                    println!(
+                        "{}: {:?}",
+                        "Source Languages".bright_cyan(),
+                        result.source_analysis.languages
+                    );
+                    println!(
+                        "{}: {}",
+                        "Target Language".bright_cyan(),
+                        result.target_recommendations.target_language
+                    );
 
                     println!("\n{}", "⚙️  CONFIGURATION FILES".bright_yellow().bold());
                     for file in &result.configuration_files {
@@ -598,7 +703,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::Optimize { project, apply } => {
-            println!("{} {}", "🚀 Optimizing project structure:".bright_green().bold(), project.bright_cyan());
+            println!(
+                "{} {}",
+                "🚀 Optimizing project structure:".bright_green().bold(),
+                project.bright_cyan()
+            );
 
             let _analyzer = semantic_compiler::CrossLanguageAnalyzer;
 
@@ -621,10 +730,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
 
             println!("\n{}: {:.1}x", "Expected Performance Gain".bright_green(), 5.2);
-            println!("{}: {}", "Mode".bright_blue(), if apply { "APPLY".bright_green() } else { "DRY-RUN".bright_yellow() });
+            println!(
+                "{}: {}",
+                "Mode".bright_blue(),
+                if apply { "APPLY".bright_green() } else { "DRY-RUN".bright_yellow() }
+            );
         }
         Commands::CrateAnalyze { path, format } => {
-            println!("{} {}", "📦 Analyzing crate dependencies:".bright_blue().bold(), path.bright_cyan());
+            println!(
+                "{} {}",
+                "📦 Analyzing crate dependencies:".bright_blue().bold(),
+                path.bright_cyan()
+            );
 
             let orchestrator = parflow_crate_orchestrator::CrateOrchestrator::new();
 
@@ -633,7 +750,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if format == "json" {
                         match serde_json::to_string_pretty(&analysis) {
                             Ok(json) => println!("{}", json),
-                            Err(e) => println!("{} {}", "❌ JSON serialization failed:".bright_red(), e),
+                            Err(e) => {
+                                println!("{} {}", "❌ JSON serialization failed:".bright_red(), e)
+                            }
                         }
                     } else {
                         println!("\n{}", "📊 DEPENDENCY ANALYSIS".bright_green().bold());
@@ -641,9 +760,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         println!("{}: {}", "Version".bright_cyan(), analysis.version);
 
                         println!("\n{}", "📈 PERFORMANCE METRICS".bright_yellow().bold());
-                        println!("  {}: {}ms", "Compile Time".bright_white(), analysis.performance_metrics.compile_time_ms);
-                        println!("  {}: {}KB", "Binary Size".bright_white(), analysis.performance_metrics.binary_size_kb);
-                        println!("  {}: {}", "Dependencies".bright_white(), analysis.performance_metrics.dependency_count);
+                        println!(
+                            "  {}: {}ms",
+                            "Compile Time".bright_white(),
+                            analysis.performance_metrics.compile_time_ms
+                        );
+                        println!(
+                            "  {}: {}KB",
+                            "Binary Size".bright_white(),
+                            analysis.performance_metrics.binary_size_kb
+                        );
+                        println!(
+                            "  {}: {}",
+                            "Dependencies".bright_white(),
+                            analysis.performance_metrics.dependency_count
+                        );
 
                         if !analysis.unused_dependencies.is_empty() {
                             println!("\n{}", "🗑️  UNUSED DEPENDENCIES".bright_red().bold());
@@ -655,7 +786,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         if !analysis.outdated_dependencies.is_empty() {
                             println!("\n{}", "🔄 OUTDATED DEPENDENCIES".bright_yellow().bold());
                             for outdated in &analysis.outdated_dependencies {
-                                println!("  • {}: {} → {}", outdated.name, outdated.current_version, outdated.latest_version);
+                                println!(
+                                    "  • {}: {} → {}",
+                                    outdated.name,
+                                    outdated.current_version,
+                                    outdated.latest_version
+                                );
                             }
                         }
                     }
@@ -664,7 +800,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::CrateOptimize { path, apply } => {
-            println!("{} {}", "⚡ Optimizing dependencies:".bright_green().bold(), path.bright_cyan());
+            println!(
+                "{} {}",
+                "⚡ Optimizing dependencies:".bright_green().bold(),
+                path.bright_cyan()
+            );
 
             let orchestrator = parflow_crate_orchestrator::CrateOrchestrator::new();
 
@@ -673,17 +813,36 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     println!("\n{}", "💡 OPTIMIZATION SUGGESTIONS".bright_blue().bold());
                     for suggestion in &result.suggested_optimizations {
                         let action_icon = match suggestion.action {
-                            parflow_crate_orchestrator::OptimizationAction::RemoveDependency => "🗑️",
-                            parflow_crate_orchestrator::OptimizationAction::UpdateDependency => "🔄",
-                            parflow_crate_orchestrator::OptimizationAction::ReplaceDependency => "🔧",
+                            parflow_crate_orchestrator::OptimizationAction::RemoveDependency => {
+                                "🗑️"
+                            }
+                            parflow_crate_orchestrator::OptimizationAction::UpdateDependency => {
+                                "🔄"
+                            }
+                            parflow_crate_orchestrator::OptimizationAction::ReplaceDependency => {
+                                "🔧"
+                            }
                             parflow_crate_orchestrator::OptimizationAction::AddDependency => "➕",
                         };
-                        println!("  {} {}: {}", action_icon, suggestion.target.bright_yellow(), suggestion.reason);
+                        println!(
+                            "  {} {}: {}",
+                            action_icon,
+                            suggestion.target.bright_yellow(),
+                            suggestion.reason
+                        );
                         println!("     Impact: {}", suggestion.impact.bright_white());
                     }
 
-                    println!("\n{}: {:.1}x", "Estimated Improvement".bright_green(), result.estimated_improvement);
-                    println!("{}: {}", "Mode".bright_blue(), if apply { "APPLY".bright_green() } else { "DRY-RUN".bright_yellow() });
+                    println!(
+                        "\n{}: {:.1}x",
+                        "Estimated Improvement".bright_green(),
+                        result.estimated_improvement
+                    );
+                    println!(
+                        "{}: {}",
+                        "Mode".bright_blue(),
+                        if apply { "APPLY".bright_green() } else { "DRY-RUN".bright_yellow() }
+                    );
                 }
                 Err(e) => println!("{} {}", "❌ Optimization failed:".bright_red(), e),
             }
@@ -701,14 +860,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             if format == "json" {
                                 match serde_json::to_string_pretty(&results) {
                                     Ok(json) => println!("{}", json),
-                                    Err(e) => println!("{} {}", "❌ JSON serialization failed:".bright_red(), e),
+                                    Err(e) => println!(
+                                        "{} {}",
+                                        "❌ JSON serialization failed:".bright_red(),
+                                        e
+                                    ),
                                 }
                             } else {
                                 println!("\n{}", "📊 TEST RESULTS".bright_green().bold());
                                 for result in &results {
                                     println!("{}:", result.environment.bright_cyan());
-                                    println!("  ✅ Passed: {}", result.tests_passed.to_string().bright_green());
-                                    println!("  ❌ Failed: {}", result.tests_failed.to_string().bright_red());
+                                    println!(
+                                        "  ✅ Passed: {}",
+                                        result.tests_passed.to_string().bright_green()
+                                    );
+                                    println!(
+                                        "  ❌ Failed: {}",
+                                        result.tests_failed.to_string().bright_red()
+                                    );
                                     println!("  ⏱️  Duration: {:.1}s", result.duration_seconds);
                                     println!("  📈 Coverage: {:.1}%", result.coverage_percentage);
                                 }
@@ -717,9 +886,20 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             // Analyze performance
                             match test_orchestrator.analyze_test_performance(&results).await {
                                 Ok(analysis) => {
-                                    println!("\n{}", "🎯 PERFORMANCE ANALYSIS".bright_magenta().bold());
-                                    println!("  {}: {:.1}%", "Success Rate".bright_green(), analysis.success_rate);
-                                    println!("  {}: {:.1}s avg", "Duration".bright_blue(), analysis.average_duration_seconds);
+                                    println!(
+                                        "\n{}",
+                                        "🎯 PERFORMANCE ANALYSIS".bright_magenta().bold()
+                                    );
+                                    println!(
+                                        "  {}: {:.1}%",
+                                        "Success Rate".bright_green(),
+                                        analysis.success_rate
+                                    );
+                                    println!(
+                                        "  {}: {:.1}s avg",
+                                        "Duration".bright_blue(),
+                                        analysis.average_duration_seconds
+                                    );
 
                                     if !analysis.performance_bottlenecks.is_empty() {
                                         println!("\n{}", "⚠️  BOTTLENECKS".bright_yellow().bold());
@@ -728,7 +908,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                                         }
                                     }
                                 }
-                                Err(e) => println!("{} {}", "❌ Performance analysis failed:".bright_red(), e),
+                                Err(e) => println!(
+                                    "{} {}",
+                                    "❌ Performance analysis failed:".bright_red(),
+                                    e
+                                ),
                             }
                         }
                         Err(e) => println!("{} {}", "❌ Test execution failed:".bright_red(), e),
@@ -744,28 +928,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             // In real implementation, this would load results from file
             // For now, we'll create mock results
-            let mock_results = vec![
-                parflow_test_orchestrator::TestResult {
-                    environment: "rust-tests".to_string(),
-                    tests_passed: 95,
-                    tests_failed: 2,
-                    duration_seconds: 8.5,
-                    coverage_percentage: 92.0,
-                    performance_metrics: parflow_test_orchestrator::TestPerformance {
-                        execution_time_ms: 8500,
-                        memory_usage_mb: 120.5,
-                        cpu_usage_percent: 65.0,
-                    },
+            let mock_results = vec![parflow_test_orchestrator::TestResult {
+                environment: "rust-tests".to_string(),
+                tests_passed: 95,
+                tests_failed: 2,
+                duration_seconds: 8.5,
+                coverage_percentage: 92.0,
+                performance_metrics: parflow_test_orchestrator::TestPerformance {
+                    execution_time_ms: 8500,
+                    memory_usage_mb: 120.5,
+                    cpu_usage_percent: 65.0,
                 },
-            ];
+            }];
 
             match test_orchestrator.analyze_test_performance(&mock_results).await {
                 Ok(analysis) => {
                     println!("\n{}", "📊 TEST ANALYSIS REPORT".bright_green().bold());
-                    println!("{}: {}", "Total Environments".bright_cyan(), analysis.total_environments);
+                    println!(
+                        "{}: {}",
+                        "Total Environments".bright_cyan(),
+                        analysis.total_environments
+                    );
                     println!("{}: {}", "Total Tests".bright_cyan(), analysis.total_tests);
                     println!("{}: {:.1}%", "Success Rate".bright_green(), analysis.success_rate);
-                    println!("{}: {:.1}s", "Average Duration".bright_blue(), analysis.average_duration_seconds);
+                    println!(
+                        "{}: {:.1}s",
+                        "Average Duration".bright_blue(),
+                        analysis.average_duration_seconds
+                    );
 
                     if !analysis.optimization_suggestions.is_empty() {
                         println!("\n{}", "💡 OPTIMIZATION SUGGESTIONS".bright_yellow().bold());
@@ -787,21 +977,45 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if format == "json" {
                         match serde_json::to_string_pretty(&analysis) {
                             Ok(json) => println!("{}", json),
-                            Err(e) => println!("{} {}", "❌ JSON serialization failed:".bright_red(), e),
+                            Err(e) => {
+                                println!("{} {}", "❌ JSON serialization failed:".bright_red(), e)
+                            }
                         }
                     } else {
                         println!("\n{}", "🖥️  SYSTEM ANALYSIS REPORT".bright_green().bold());
-                        println!("{}: {:.1}GB / {:.1}GB", "Memory Usage".bright_cyan(),
-                            analysis.memory_usage.used_memory_gb, analysis.memory_usage.total_memory_gb);
-                        println!("{}: {:.1}GB / {:.1}GB", "Storage Usage".bright_cyan(),
-                            analysis.storage_analysis.used_storage_gb, analysis.storage_analysis.total_storage_gb);
-                        println!("{}: {:.1}%", "CPU Usage".bright_cyan(), analysis.performance_metrics.cpu_usage_percent);
+                        println!(
+                            "{}: {:.1}GB / {:.1}GB",
+                            "Memory Usage".bright_cyan(),
+                            analysis.memory_usage.used_memory_gb,
+                            analysis.memory_usage.total_memory_gb
+                        );
+                        println!(
+                            "{}: {:.1}GB / {:.1}GB",
+                            "Storage Usage".bright_cyan(),
+                            analysis.storage_analysis.used_storage_gb,
+                            analysis.storage_analysis.total_storage_gb
+                        );
+                        println!(
+                            "{}: {:.1}%",
+                            "CPU Usage".bright_cyan(),
+                            analysis.performance_metrics.cpu_usage_percent
+                        );
 
                         if !analysis.optimization_opportunities.is_empty() {
-                            println!("\n{}", "💡 OPTIMIZATION OPPORTUNITIES".bright_yellow().bold());
-                            for (i, opportunity) in analysis.optimization_opportunities.iter().enumerate() {
-                                println!("  {}. {} ({} improvement)", i + 1, opportunity.description,
-                                    format!("{:.1}%", opportunity.estimated_improvement * 100.0).bright_green());
+                            println!(
+                                "\n{}",
+                                "💡 OPTIMIZATION OPPORTUNITIES".bright_yellow().bold()
+                            );
+                            for (i, opportunity) in
+                                analysis.optimization_opportunities.iter().enumerate()
+                            {
+                                println!(
+                                    "  {}. {} ({} improvement)",
+                                    i + 1,
+                                    opportunity.description,
+                                    format!("{:.1}%", opportunity.estimated_improvement * 100.0)
+                                        .bright_green()
+                                );
                             }
                         }
                     }
@@ -810,21 +1024,36 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::AISlopDetect { path } => {
-            println!("{} {}", "🤖 Detecting AI-generated code patterns:".bright_blue(), path.bright_cyan());
+            println!(
+                "{} {}",
+                "🤖 Detecting AI-generated code patterns:".bright_blue(),
+                path.bright_cyan()
+            );
 
             let optimizer = parflow_system_optimizer::SystemOptimizer::new();
 
             match optimizer.detect_ai_slop(&path).await {
                 Ok(analysis) => {
                     println!("\n{}", "🧠 AI CODE ANALYSIS".bright_magenta().bold());
-                    println!("{}: {}/{} files", "Files with AI patterns".bright_cyan(),
-                        analysis.files_with_ai_patterns, analysis.total_files);
-                    println!("{}: {:.1}%", "Quality Score".bright_green(), analysis.quality_score * 100.0);
+                    println!(
+                        "{}: {}/{} files",
+                        "Files with AI patterns".bright_cyan(),
+                        analysis.files_with_ai_patterns,
+                        analysis.total_files
+                    );
+                    println!(
+                        "{}: {:.1}%",
+                        "Quality Score".bright_green(),
+                        analysis.quality_score * 100.0
+                    );
 
                     if !analysis.common_ai_patterns.is_empty() {
                         println!("\n{}", "⚠️  COMMON AI PATTERNS".bright_yellow().bold());
                         for pattern in &analysis.common_ai_patterns {
-                            println!("  • {} ({} occurrences)", pattern.pattern_type, pattern.occurrences);
+                            println!(
+                                "  • {} ({} occurrences)",
+                                pattern.pattern_type, pattern.occurrences
+                            );
                             println!("    Suggestion: {}", pattern.suggestion.bright_white());
                         }
                     }
@@ -840,7 +1069,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::LiveStart { project, port } => {
-            println!("{} {}", "🚀 Starting live coding session:".bright_green().bold(), project.bright_cyan());
+            println!(
+                "{} {}",
+                "🚀 Starting live coding session:".bright_green().bold(),
+                project.bright_cyan()
+            );
             println!("{} {}", "Port:".bright_blue(), port);
 
             // Start the live server
@@ -859,7 +1092,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("{}", "⏹️  Live session ended".bright_red());
         }
         Commands::LiveJoin { session, name, server } => {
-            println!("{} {}", "👋 Joining live session:".bright_blue().bold(), session.bright_cyan());
+            println!(
+                "{} {}",
+                "👋 Joining live session:".bright_blue().bold(),
+                session.bright_cyan()
+            );
             println!("{} {}", "as:".bright_blue(), name.bright_green());
 
             // Start the live client
@@ -871,7 +1108,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Commands::HardwareBoost { application, boost_type } => {
-            println!("{} {}", "💪 Boosting hardware performance for:".bright_magenta(), application.bright_cyan());
+            println!(
+                "{} {}",
+                "💪 Boosting hardware performance for:".bright_magenta(),
+                application.bright_cyan()
+            );
             println!("{}: {}", "Boost type".bright_blue(), boost_type.bright_yellow());
 
             let collab_engine = parflow_live_collab::LiveCollaborationEngine::new();
@@ -896,12 +1137,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     // Use the cloned value instead of the moved one
                     match boost_type_clone {
                         parflow_live_collab::BoostType::Gaming => {
-                            println!("{}: {} → {} FPS", "Performance".bright_cyan(),
-                                result.original_fps, result.boosted_fps);
-                            println!("{}: {:.1}%", "Improvement".bright_green(), result.improvement_percent);
-                        },
+                            println!(
+                                "{}: {} → {} FPS",
+                                "Performance".bright_cyan(),
+                                result.original_fps,
+                                result.boosted_fps
+                            );
+                            println!(
+                                "{}: {:.1}%",
+                                "Improvement".bright_green(),
+                                result.improvement_percent
+                            );
+                        }
                         _ => {
-                            println!("{}: {:.1}%", "Performance Improvement".bright_green(), result.improvement_percent);
+                            println!(
+                                "{}: {:.1}%",
+                                "Performance Improvement".bright_green(),
+                                result.improvement_percent
+                            );
                         }
                     }
 

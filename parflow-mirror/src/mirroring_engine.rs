@@ -26,8 +26,13 @@ impl MirroringEngine {
         Ok(analysis)
     }
 
-    pub async fn mirror_codebase(&self, source_path: &str, target_language: &str) -> Result<MirroringResult> {
-        println!("{} {} {} {}",
+    pub async fn mirror_codebase(
+        &self,
+        source_path: &str,
+        target_language: &str,
+    ) -> Result<MirroringResult> {
+        println!(
+            "{} {} {} {}",
             "🔄 Mirroring:".bright_blue(),
             source_path.bright_yellow(),
             "→".bright_white(),
@@ -44,8 +49,13 @@ impl MirroringEngine {
     }
 
     // ADD THIS MISSING METHOD WITH MOCK TYPES
-    pub async fn mirror_with_dependencies(&self, source_path: &str, target_language: &str) -> Result<EnhancedMirroringResult> {
-        println!("{} {} {} {}",
+    pub async fn mirror_with_dependencies(
+        &self,
+        source_path: &str,
+        target_language: &str,
+    ) -> Result<EnhancedMirroringResult> {
+        println!(
+            "{} {} {} {}",
             "🔄 Mirroring with dependency analysis:".bright_blue().bold(),
             source_path.bright_yellow(),
             "→".bright_white(),
@@ -90,11 +100,11 @@ impl MirroringEngine {
                     "tokio → asyncio (Python)".to_string(),
                 ],
                 incompatible_dependencies: vec![
-                    "specific_rust_crate → No direct equivalent".to_string(),
+                    "specific_rust_crate → No direct equivalent".to_string()
                 ],
-                alternative_suggestions: vec![
-                    "Use FastAPI instead of Express for better Rust integration".to_string(),
-                ],
+                alternative_suggestions: vec!["Use FastAPI instead of Express for better Rust \
+                                               integration"
+                    .to_string()],
             },
         })
     }
@@ -128,9 +138,12 @@ impl RepositoryAnalysis {
             self.estimated_improvement *= 5.0;
         }
 
-        if self.languages.contains(&"javascript".to_string()) && self.languages.contains(&"python".to_string()) {
+        if self.languages.contains(&"javascript".to_string())
+            && self.languages.contains(&"python".to_string())
+        {
             self.mirroring_suggestions.push(MirroringSuggestion {
-                description: "Consolidate data processing in Python instead of JavaScript".to_string(),
+                description: "Consolidate data processing in Python instead of JavaScript"
+                    .to_string(),
                 estimated_performance_gain: 2.0,
                 effort_estimate: "Low".to_string(),
             });
@@ -197,7 +210,12 @@ pub struct CompatibilityReport {
 pub struct LanguageTranslator;
 
 impl LanguageTranslator {
-    pub fn translate_pattern(&self, pattern: semantic_compiler::PatternType, from: &str, to: &str) -> String {
+    pub fn translate_pattern(
+        &self,
+        pattern: semantic_compiler::PatternType,
+        from: &str,
+        to: &str,
+    ) -> String {
         format!("Translated {:?} from {} to {}: Mock implementation", pattern, from, to)
     }
 }

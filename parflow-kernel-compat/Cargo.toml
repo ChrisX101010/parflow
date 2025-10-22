@@ -1,0 +1,16 @@
+[package]
+name = "parflow-kernel-compat"
+version = "0.1.0"
+edition = "2021"
+description = "Kernel-compatible error handling and system interfaces for ParFlow"
+license = "MIT"
+
+[dependencies]
+thiserror = "1.0"
+log = "0.4"
+num_cpus = "1.16"
+page_size = "0.4"
+
+[features]
+default = ["std"]
+std = []

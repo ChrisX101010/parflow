@@ -119,10 +119,7 @@ pub struct LiveServer {
 
 impl LiveServer {
     pub fn new() -> Self {
-        Self {
-            sessions: Arc::new(DashMap::new()),
-            broadcast_senders: Arc::new(DashMap::new()),
-        }
+        Self { sessions: Arc::new(DashMap::new()), broadcast_senders: Arc::new(DashMap::new()) }
     }
 
     pub async fn create_session(&self, project_name: &str) -> String {
@@ -133,14 +130,13 @@ impl LiveServer {
             project_name: project_name.to_string(),
             participants: Vec::new(),
             shared_terminal: SharedTerminal {
-                active_tabs: vec![
-                    TerminalTab {
-                        tab_id: "main".to_string(),
-                        tab_name: "Main Terminal".to_string(),
-                        content: "Welcome to ParFlow Live! 👋\n\nType 'help' for available commands.".to_string(),
-                        is_active: true,
-                    }
-                ],
+                active_tabs: vec![TerminalTab {
+                    tab_id: "main".to_string(),
+                    tab_name: "Main Terminal".to_string(),
+                    content: "Welcome to ParFlow Live! 👋\n\nType 'help' for available commands."
+                        .to_string(),
+                    is_active: true,
+                }],
                 broadcast_channel: format!("session_{}", session_id),
             },
             code_files: vec![],
@@ -188,10 +184,17 @@ impl LiveServer {
         None
     }
 
-    pub async fn handle_terminal_input(&self, session_id: &str, user_id: &str, input: &str) -> Result<(), anyhow::Error> {
+    pub async fn handle_terminal_input(
+        &self,
+        session_id: &str,
+        user_id: &str,
+        input: &str,
+    ) -> Result<(), anyhow::Error> {
         if let Some(mut session) = self.sessions.get_mut(session_id) {
             if let Some(_participant) = session.participants.iter_mut().find(|p| p.id == user_id) {
-                if let Some(active_tab) = session.shared_terminal.active_tabs.iter_mut().find(|t| t.is_active) {
+                if let Some(active_tab) =
+                    session.shared_terminal.active_tabs.iter_mut().find(|t| t.is_active)
+                {
                     let output = self.execute_command(input, session_id).await?;
 
                     active_tab.content.push_str(&format!("\n$ {}\n{}", input, output));
@@ -208,7 +211,13 @@ impl LiveServer {
         Ok(())
     }
 
-    pub async fn handle_code_edit(&self, session_id: &str, user_id: &str, filename: &str, new_content: &str) -> Result<(), anyhow::Error> {
+    pub async fn handle_code_edit(
+        &self,
+        session_id: &str,
+        user_id: &str,
+        filename: &str,
+        new_content: &str,
+    ) -> Result<(), anyhow::Error> {
         if let Some(mut session) = self.sessions.get_mut(session_id) {
             if let Some(file) = session.code_files.iter_mut().find(|f| f.filename == filename) {
                 file.content = new_content.to_string();
@@ -236,15 +245,19 @@ impl LiveServer {
         Ok(())
     }
 
-    pub async fn update_cursor_position(&self, session_id: &str, user_id: &str, filename: &str, line: u32, column: u32) -> Result<(), anyhow::Error> {
+    pub async fn update_cursor_position(
+        &self,
+        session_id: &str,
+        user_id: &str,
+        filename: &str,
+        line: u32,
+        column: u32,
+    ) -> Result<(), anyhow::Error> {
         if let Some(mut session) = self.sessions.get_mut(session_id) {
             // FIXED: Remove underscore from _participant
             if let Some(participant) = session.participants.iter_mut().find(|p| p.id == user_id) {
-                participant.cursor_position = CursorPosition {
-                    line,
-                    column,
-                    filename: Some(filename.to_string()),
-                };
+                participant.cursor_position =
+                    CursorPosition { line, column, filename: Some(filename.to_string()) };
 
                 if let Some(tx) = self.broadcast_senders.get(session_id) {
                     let _ = tx.send(LiveUpdate::CursorMoved {
@@ -259,16 +272,16 @@ impl LiveServer {
         Ok(())
     }
 
-    async fn execute_command(&self, command: &str, session_id: &str) -> Result<String, anyhow::Error> {
+    async fn execute_command(
+        &self,
+        command: &str,
+        session_id: &str,
+    ) -> Result<String, anyhow::Error> {
         match command.trim() {
-            "help" => Ok(
-                "Available commands:\n\
-                 • code <file> - Edit a code file\n\
-                 • compile - Trigger compilation\n\
-                 • status - Show session status\n\
-                 • resources - Show shared resources\n\
-                 • invite <user> - Invite another user".to_string()
-            ),
+            "help" => Ok("Available commands:\n• code <file> - Edit a code file\n• compile - \
+                          Trigger compilation\n• status - Show session status\n• resources - \
+                          Show shared resources\n• invite <user> - Invite another user"
+                .to_string()),
             "compile" => {
                 self.trigger_compilation(session_id).await?;
                 Ok("Compilation triggered!".to_string())
@@ -276,12 +289,21 @@ impl LiveServer {
             "status" => {
                 if let Some(session) = self.sessions.get(session_id) {
                     Ok(format!(
-                        "Session: {}\nParticipants: {}\nFiles: {}\nResources: {} cores, {}GB memory",
+                        "Session: {}\nParticipants: {}\nFiles: {}\nResources: {} cores, {}GB \
+                         memory",
                         session.project_name,
                         session.participants.len(),
                         session.code_files.len(),
-                        session.participants.iter().map(|p| p.resources.available_cpu_cores).sum::<u32>(),
-                        session.participants.iter().map(|p| p.resources.available_memory_gb).sum::<f64>(),
+                        session
+                            .participants
+                            .iter()
+                            .map(|p| p.resources.available_cpu_cores)
+                            .sum::<u32>(),
+                        session
+                            .participants
+                            .iter()
+                            .map(|p| p.resources.available_memory_gb)
+                            .sum::<f64>(),
                     ))
                 } else {
                     Ok("Session not found".to_string())
@@ -289,17 +311,23 @@ impl LiveServer {
             }
             "resources" => {
                 if let Some(session) = self.sessions.get(session_id) {
-                    let total_cores: u32 = session.participants.iter().map(|p| p.resources.available_cpu_cores).sum();
-                    let total_memory: f64 = session.participants.iter().map(|p| p.resources.available_memory_gb).sum();
-                    let total_gpu: f64 = session.participants.iter().map(|p| p.resources.available_gpu_memory_gb).sum();
+                    let total_cores: u32 =
+                        session.participants.iter().map(|p| p.resources.available_cpu_cores).sum();
+                    let total_memory: f64 =
+                        session.participants.iter().map(|p| p.resources.available_memory_gb).sum();
+                    let total_gpu: f64 = session
+                        .participants
+                        .iter()
+                        .map(|p| p.resources.available_gpu_memory_gb)
+                        .sum();
 
                     Ok(format!(
-                        "Shared Resources:\n\
-                         • CPU Cores: {}\n\
-                         • Memory: {:.1}GB\n\
-                         • GPU Memory: {:.1}GB\n\
-                         • Participants: {}",
-                        total_cores, total_memory, total_gpu, session.participants.len()
+                        "Shared Resources:\n• CPU Cores: {}\n• Memory: {:.1}GB\n• GPU Memory: \
+                         {:.1}GB\n• Participants: {}",
+                        total_cores,
+                        total_memory,
+                        total_gpu,
+                        session.participants.len()
                     ))
                 } else {
                     Ok("Session not found".to_string())
@@ -325,15 +353,13 @@ impl LiveServer {
                 status: CompilationState::Success,
                 output: "Compilation successful! 🎉".to_string(),
                 errors: Vec::new(),
-                warnings: vec![
-                    CompilationWarning {
-                        file: "main.rs".to_string(),
-                        line: 10,
-                        column: 5,
-                        message: "Unused variable".to_string(),
-                        suggestion: Some("Consider removing or using the variable".to_string()),
-                    }
-                ],
+                warnings: vec![CompilationWarning {
+                    file: "main.rs".to_string(),
+                    line: 10,
+                    column: 5,
+                    message: "Unused variable".to_string(),
+                    suggestion: Some("Consider removing or using the variable".to_string()),
+                }],
             };
 
             if let Some(tx) = self.broadcast_senders.get(session_id) {
@@ -360,25 +386,37 @@ impl LiveServer {
         }
     }
 
-    pub fn subscribe_to_updates(&self, session_id: &str) -> Option<broadcast::Receiver<LiveUpdate>> {
-        self.broadcast_senders
-            .get(session_id)
-            .map(|tx| tx.subscribe())
+    pub fn subscribe_to_updates(
+        &self,
+        session_id: &str,
+    ) -> Option<broadcast::Receiver<LiveUpdate>> {
+        self.broadcast_senders.get(session_id).map(|tx| tx.subscribe())
     }
 
     pub async fn distribute_compilation(&self, session_id: &str) -> Result<(), anyhow::Error> {
         if let Some(session) = self.sessions.get(session_id) {
-            let total_cores: u32 = session.participants.iter().map(|p| p.resources.available_cpu_cores).sum();
-            let total_memory: f64 = session.participants.iter().map(|p| p.resources.available_memory_gb).sum();
+            let total_cores: u32 =
+                session.participants.iter().map(|p| p.resources.available_cpu_cores).sum();
+            let total_memory: f64 =
+                session.participants.iter().map(|p| p.resources.available_memory_gb).sum();
 
-            println!("{} {} cores, {}GB memory",
+            println!(
+                "{} {} cores, {}GB memory",
                 "🔄 Distributing compilation across:".bright_green(),
-                total_cores, total_memory);
+                total_cores,
+                total_memory
+            );
 
             // Distribute compilation tasks
             for (i, file) in session.code_files.iter().enumerate() {
-                if let Some(participant) = session.participants.get(i % session.participants.len()) {
-                    println!("{} {} → {}", "📦 Compiling:".bright_blue(), file.filename, participant.name);
+                if let Some(participant) = session.participants.get(i % session.participants.len())
+                {
+                    println!(
+                        "{} {} → {}",
+                        "📦 Compiling:".bright_blue(),
+                        file.filename,
+                        participant.name
+                    );
                 }
             }
         }
@@ -433,11 +471,7 @@ impl Default for ParticipantResources {
 
 impl Default for CursorPosition {
     fn default() -> Self {
-        Self {
-            line: 0,
-            column: 0,
-            filename: None,
-        }
+        Self { line: 0, column: 0, filename: None }
     }
 }
 

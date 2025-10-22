@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
-use anyhow::Result;
 use colored::*;
+use parflow_kernel_compat::{profile_operation, KResult};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]  // Added Clone
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BoostResult {
     pub original_fps: f64,
     pub boosted_fps: f64,
@@ -10,7 +10,7 @@ pub struct BoostResult {
     pub techniques_applied: Vec<String>,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]  // Added Clone
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum BoostType {
     Gaming,
     Compilation,
@@ -24,8 +24,19 @@ impl LiveCollaborationEngine {
         Self
     }
 
-    pub async fn hardware_boost(&self, application: &str, boost_type: BoostType) -> Result<BoostResult> {
-        println!("{} {} ({:?})", "💪 Boosting performance for:".bright_magenta(), application, boost_type);
+    pub async fn hardware_boost(
+        &self,
+        application: &str,
+        boost_type: BoostType,
+    ) -> KResult<BoostResult> {
+        profile_operation!(format!("hardware_boost_{}", application), "live_collab");
+
+        println!(
+            "{} {} ({:?})",
+            "💪 Boosting performance for:".bright_magenta(),
+            application,
+            boost_type
+        );
 
         match boost_type {
             BoostType::Gaming => Ok(BoostResult {

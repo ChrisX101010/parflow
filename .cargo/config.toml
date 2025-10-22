@@ -1,0 +1,15 @@
+[build]
+rustflags = ["-D", "warnings", "-D", "missing_docs"]
+rustdocflags = ["-D", "warnings"]
+
+[llvm]
+print-codegen-stats = true
+
+[target.'cfg(all(target_arch = "x86_64", target_os = "linux"))']
+rustflags = ["-C", "target-cpu=native"]
+
+[alias]
+ci = "test --workspace --all-features --all-targets --verbose"
+fmt-check = "fmt --all -- --check"  # CHANGED: Renamed from 'fmt'
+lint = "clippy --workspace --all-targets --all-features -- -D warnings"
+kernel-check = "clippy --workspace --all-targets --features kernel_compat -- -D warnings"

@@ -4,34 +4,36 @@ use std::time::Duration;
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn run_example_par() -> Vec<i32> {
     use tokio::time::sleep;
-    
+
     let result1 = tokio::spawn(async {
         sleep(Duration::from_millis(100)).await;
         1
     });
-    
+
     let result2 = tokio::spawn(async {
         sleep(Duration::from_millis(50)).await;
         2
     });
-    
+
     vec![result1.await.unwrap(), result2.await.unwrap()]
 }
 
 #[cfg(not(target_arch = "wasm32"))]
 pub async fn run_example_seq() -> Vec<i32> {
     use tokio::time::sleep;
-    
+
     let result1 = async {
         sleep(Duration::from_millis(100)).await;
         1
-    }.await;
-    
+    }
+    .await;
+
     let result2 = async {
         sleep(Duration::from_millis(50)).await;
         2
-    }.await;
-    
+    }
+    .await;
+
     vec![result1, result2]
 }
 

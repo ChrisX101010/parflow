@@ -1,4 +1,5 @@
-use tonic::{transport::Server, Request, Response, Status};
+use tonic::transport::Server;
+use tonic::{Request, Response, Status};
 
 // Import the generated proto code
 mod proto {
@@ -35,15 +36,11 @@ pub async fn run_grpc_server(port: u16) -> Result<(), Box<dyn std::error::Error>
     Ok(())
 }
 
-
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("🚀 Starting ParFlow gRPC Server");
-    
-    let port = std::env::var("PORT")
-        .ok()
-        .and_then(|p| p.parse().ok())
-        .unwrap_or(50051);
-    
+
+    let port = std::env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(50051);
+
     run_grpc_server(port).await
 }

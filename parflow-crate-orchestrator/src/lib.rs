@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use anyhow::Result;
 use colored::*;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 // Basic structs to make CLI compile
 #[derive(Debug, Serialize, Deserialize)]
@@ -131,19 +131,17 @@ impl CrateOrchestrator {
 
     pub async fn analyze_cargo_toml(&self, _path: &str) -> Result<CrateAnalysis> {
         println!("{}", "🔍 Analyzing Cargo.toml...".bright_blue());
-        
+
         Ok(CrateAnalysis {
             name: "parflow-cli".to_string(),
             version: "0.1.0".to_string(),
-            dependencies: vec![
-                DependencyInfo {
-                    name: "tokio".to_string(),
-                    version: "1.0".to_string(),
-                    used: true,
-                    deprecated: false,
-                    alternative: None,
-                },
-            ],
+            dependencies: vec![DependencyInfo {
+                name: "tokio".to_string(),
+                version: "1.0".to_string(),
+                used: true,
+                deprecated: false,
+                alternative: None,
+            }],
             unused_dependencies: vec!["old-crate".to_string()],
             outdated_dependencies: vec![],
             security_vulnerabilities: vec![],
@@ -156,19 +154,21 @@ impl CrateOrchestrator {
         })
     }
 
-    pub async fn optimize_dependencies(&self, path: &str, dry_run: bool) -> Result<OptimizationResult> {
+    pub async fn optimize_dependencies(
+        &self,
+        path: &str,
+        dry_run: bool,
+    ) -> Result<OptimizationResult> {
         println!("{} {}", "⚡ Optimizing dependencies for:".bright_green(), path);
-        
+
         let analysis = self.analyze_cargo_toml(path).await?;
-        
-        let optimizations = vec![
-            OptimizationSuggestion {
-                action: OptimizationAction::RemoveDependency,
-                target: "old-crate".to_string(),
-                reason: "Dependency not used in code".to_string(),
-                impact: "Reduces compile time and binary size".to_string(),
-            }
-        ];
+
+        let optimizations = vec![OptimizationSuggestion {
+            action: OptimizationAction::RemoveDependency,
+            target: "old-crate".to_string(),
+            reason: "Dependency not used in code".to_string(),
+            impact: "Reduces compile time and binary size".to_string(),
+        }];
 
         Ok(OptimizationResult {
             original_metrics: analysis.performance_metrics,
@@ -178,8 +178,14 @@ impl CrateOrchestrator {
         })
     }
 
-    pub async fn mirror_development_environment(&self, source_path: &str, target_path: &str, target_language: &str) -> Result<EnvironmentMirroringResult> {
-        println!("{} {} {} {}",
+    pub async fn mirror_development_environment(
+        &self,
+        source_path: &str,
+        target_path: &str,
+        target_language: &str,
+    ) -> Result<EnvironmentMirroringResult> {
+        println!(
+            "{} {} {} {}",
             "🔄 Mirroring development environment:".bright_blue(),
             source_path,
             "→",

@@ -3,11 +3,15 @@ use semantic_compiler::PatternType;
 pub struct LanguageTranslator;
 
 impl LanguageTranslator {
-    pub fn translate_pattern(&self, pattern: PatternType, source_lang: &str, target_lang: &str) -> String {
+    pub fn translate_pattern(
+        &self,
+        pattern: PatternType,
+        source_lang: &str,
+        target_lang: &str,
+    ) -> String {
         // Use pattern by reference in the match to avoid moving it
         match (&pattern, source_lang, target_lang) {
-            (PatternType::FibonacciLike, "python", "rust") => {
-                r#"
+            (PatternType::FibonacciLike, "python", "rust") => r#"
 // Optimized Rust version of Fibonacci
 pub fn fibonacci(n: u64) -> u64 {
     match n {
@@ -25,10 +29,9 @@ pub fn fibonacci(n: u64) -> u64 {
         }
     }
 }
-"#.to_string()
-            }
-            (PatternType::MapReduce, "javascript", "python") => {
-                r#"
+"#
+            .to_string(),
+            (PatternType::MapReduce, "javascript", "python") => r#"
 # Python optimized map-reduce pattern
 def process_data(data):
     # Map phase
@@ -36,9 +39,12 @@ def process_data(data):
     # Reduce phase  
     result = sum(mapped)
     return result
-"#.to_string()
-            }
-            _ => format!("// Pattern {:?} translation from {} to {}", pattern, source_lang, target_lang),
+"#
+            .to_string(),
+            _ => format!(
+                "// Pattern {:?} translation from {} to {}",
+                pattern, source_lang, target_lang
+            ),
         }
     }
 }
