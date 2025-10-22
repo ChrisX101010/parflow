@@ -1,0 +1,15 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Node / WASM
+/pkg
+/node_modules
+
+# Python
+__pycache__/
+*.pyc
+
+# Misc
+.DS_Store
+.env

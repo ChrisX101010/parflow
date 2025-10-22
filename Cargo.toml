@@ -1,0 +1,21 @@
+[workspace]
+members = [
+    "parflow-core",
+    "parflow-cli", 
+    "parflow-bench",
+    "parflow-transpiler",
+    "parflow-mirror",
+    "parflow-orchestrator",
+    "parflow-rest",
+    "parflow-grpc", 
+    "parflow-wasm",
+    "parflow-c",
+    "parflow-live-server",
+    "parflow-live-client",
+    "parflow-crate-orchestrator",
+    "parflow-test-orchestrator",
+    "parflow-system-optimizer",
+    "parflow-live-collab",
+    "semantic-compiler",
+]
+resolver = "2"

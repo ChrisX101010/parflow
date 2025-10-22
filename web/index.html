@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>ParFlow WASM Demo</title></head>
+  <body>
+    <h1>ParFlow WASM Demo</h1>
+    <button id="run">Run</button>
+    <pre id="out"></pre>
+    <script type="module">
+      document.getElementById('run').addEventListener('click', async () => {
+        const pkg = await import('../parflow-wasm/pkg/parflow_wasm.js');
+        await pkg.default();
+        const v = await pkg.run_js_par();
+        document.getElementById('out').innerText = 'Result: ' + v;
+      });
+    </script>
+  </body>
+</html>

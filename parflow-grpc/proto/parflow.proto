@@ -1,0 +1,14 @@
+syntax = "proto3";
+package parflow;
+
+service Orchestrator {
+  rpc Run (OrchestratorRequest) returns (OrchestratorResponse);
+}
+
+message OrchestratorRequest {
+  repeated string tasks = 1;
+}
+
+message OrchestratorResponse {
+  repeated int32 results = 1;
+}

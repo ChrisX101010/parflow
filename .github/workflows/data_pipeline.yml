@@ -1,0 +1,20 @@
+name: "Multi-Language Data Processing Pipeline"
+concurrent: true
+tasks:
+  - language: "Python"
+    command: "python"
+    args: ["data_extraction.py"]
+    working_dir: "examples/python"
+    timeout_seconds: 300
+
+  - language: "Rust"
+    command: "./target/release/data_processor"
+    args: ["--input", "raw_data.json", "--output", "processed_data.json"]
+    working_dir: "examples/rust"
+    timeout_seconds: 180
+
+  - language: "Node.js"
+    command: "node"
+    args: ["data_visualization.js"]
+    working_dir: "examples/javascript"
+    timeout_seconds: 120

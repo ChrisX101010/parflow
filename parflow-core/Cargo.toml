@@ -1,0 +1,13 @@
+[package]
+name = "parflow-core"
+version = "0.1.0"
+edition = "2021"
+description = "Core async task orchestration library for ParFlow"
+
+[dependencies]
+futures = "0.3"
+futures-util = "0.3"
+
+# Only include tokio for non-WASM targets
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }

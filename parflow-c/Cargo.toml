@@ -1,0 +1,12 @@
+[package]
+name = "parflow-c"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "parflow_c"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+parflow-core = { path = "../parflow-core" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

@@ -1,0 +1,20 @@
+name: "Microservices Concurrent Build"
+concurrent: true  
+tasks:
+  - language: "Rust"
+    command: "cargo"
+    args: ["build", "--release"]
+    working_dir: "auth-service"
+    timeout_seconds: 300
+
+  - language: "Node.js"
+    command: "npm"
+    args: ["run", "build"]
+    working_dir: "api-gateway"
+    timeout_seconds: 120
+
+  - language: "Python"
+    command: "python"
+    args: ["-m", "pip", "install", "-r", "requirements.txt"]
+    working_dir: "data-service"
+    timeout_seconds: 180

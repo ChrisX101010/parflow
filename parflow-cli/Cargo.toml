@@ -1,0 +1,23 @@
+[package]
+name = "parflow-cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+colored = "2.0"
+indicatif = "0.17"
+tokio = { version = "1.0", features = ["full"] }
+parflow-core = { path = "../parflow-core" }
+parflow-bench = { path = "../parflow-bench" }
+parflow-transpiler = { path = "../parflow-transpiler" }
+parflow-mirror = { path = "../parflow-mirror" }
+semantic-compiler = { path = "../semantic-compiler" }
+parflow-crate-orchestrator = { path = "../parflow-crate-orchestrator" }
+parflow-test-orchestrator = { path = "../parflow-test-orchestrator" }
+parflow-system-optimizer = { path = "../parflow-system-optimizer" }
+parflow-live-server = { path = "../parflow-live-server" }
+parflow-live-client = { path = "../parflow-live-client" }
+parflow-live-collab = { path = "../parflow-live-collab" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
