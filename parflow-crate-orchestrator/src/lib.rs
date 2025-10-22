@@ -186,30 +186,9 @@ impl CrateOrchestrator {
         target_language: &str,
     ) -> Result<EnvironmentMirroringResult> {
         println!(
-        println!(
             "{} {} → {}",
             "🔄 Mirroring development environment:".bright_blue(),
             source_path,
-            target_path
-        );
-        println!(
-            "{} {} → {}",
-            "🔄 Mirroring development environment:".bright_blue(),
-            source_path,
-            target_path
-        );
-        println!(
-            "{} {} → {}",
-            "🔄 Mirroring development environment:".bright_blue(),
-            source_path,
-            target_path
-        );
-        println!(
-            "{} {} → {}",
-            "🔄 Mirroring development environment:".bright_blue(),
-            source_path,
-            target_path
-        );
             target_path
         );
 
