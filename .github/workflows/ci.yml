@@ -16,6 +16,8 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Install protoc for gRPC
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
       - name: Run tests
         run: cargo test --workspace
 
@@ -28,6 +30,8 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Install protoc for gRPC
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
       - name: Build project
         run: cargo build --workspace --release
 
@@ -44,5 +48,4 @@ jobs:
       - name: Install WASM target
         run: rustup target add wasm32-unknown-unknown
       - name: Build WASM Crate
-        # Remove strict flags that cause unnecessary failures
         run: cargo build -p parflow-wasm --target wasm32-unknown-unknown --release
