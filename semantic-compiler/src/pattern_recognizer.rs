@@ -5,6 +5,12 @@ pub struct PatternRecognizer {
     patterns: HashMap<String, Vec<PatternType>>,
 }
 
+impl Default for PatternRecognizer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PatternRecognizer {
     pub fn new() -> Self {
         let mut patterns = HashMap::new();

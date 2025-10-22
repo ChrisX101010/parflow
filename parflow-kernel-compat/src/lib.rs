@@ -1,8 +1,8 @@
 //! Kernel-compatible error handling and system interfaces for ParFlow
 //! Inspired by Linux kernel Rust integration patterns
 
-use thiserror::Error;
 use std::time::Instant;
+use thiserror::Error;
 
 /// Kernel-style error types for system-level operations
 #[derive(Error, Debug, Clone)]
@@ -10,19 +10,19 @@ pub enum KernelError {
     /// Memory allocation failure
     #[error("memory allocation failed: {context}")]
     AllocationError { context: String },
-    
+
     /// System call or OS interaction failure
     #[error("system call failed: {context}")]
     SyscallError { context: String },
-    
+
     /// Hardware feature not available
     #[error("hardware feature not supported: {feature}")]
     HardwareUnsupported { feature: String },
-    
+
     /// Performance optimization not applicable
     #[error("performance optimization not applicable: {reason}")]
     OptimizationError { reason: String },
-    
+
     /// Cross-language interoperability error
     #[error("cross-language call failed: {details}")]
     InteropError { details: String },
@@ -63,21 +63,12 @@ pub struct KernelProfiler {
 
 impl KernelProfiler {
     pub fn new(operation: impl Into<String>, module: &'static str) -> Self {
-        Self {
-            start: Instant::now(),
-            operation: operation.into(),
-            module,
-        }
+        Self { start: Instant::now(), operation: operation.into(), module }
     }
-    
+
     pub fn done(self) {
         let duration = self.start.elapsed();
-        log::info!(
-            "[KERNEL_PROFILE] {}::{} took {:?}", 
-            self.module, 
-            self.operation, 
-            duration
-        );
+        log::info!("[KERNEL_PROFILE] {}::{} took {:?}", self.module, self.operation, duration);
     }
 }
 
@@ -102,9 +93,7 @@ mod tests {
 
     #[test]
     fn test_error_display() {
-        let error = KernelError::HardwareUnsupported {
-            feature: "avx512".to_string(),
-        };
+        let error = KernelError::HardwareUnsupported { feature: "avx512".to_string() };
         assert!(format!("{}", error).contains("avx512"));
     }
 }

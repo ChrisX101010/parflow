@@ -45,6 +45,7 @@ impl CrossLanguageAnalyzer {
         }
     }
 
+    #[allow(dead_code)]
     fn estimate_performance_gain(&self, pattern: &PatternType, from: &str, to: &str) -> f64 {
         // Simple performance estimation
         match (pattern, from, to) {
@@ -55,6 +56,7 @@ impl CrossLanguageAnalyzer {
         }
     }
 
+    #[allow(dead_code)]
     fn hash_to_pattern(&self, hash: u64) -> PatternType {
         match hash % 7 {
             0 => PatternType::FibonacciLike,
@@ -76,6 +78,12 @@ pub struct ProjectAnalysis {
     pub performance_estimate: f64,
 }
 
+impl Default for ProjectAnalysis {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ProjectAnalysis {
     pub fn new() -> Self {
         Self {
@@ -91,7 +99,7 @@ impl ProjectAnalysis {
             self.languages.push(graph.language.clone());
         }
 
-        for (pattern_hash, _) in &graph.pattern_cache {
+        for pattern_hash in graph.pattern_cache.keys() {
             let pattern_type = match pattern_hash % 7 {
                 0 => PatternType::FibonacciLike,
                 1 => PatternType::MapReduce,

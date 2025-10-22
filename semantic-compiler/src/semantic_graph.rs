@@ -83,7 +83,7 @@ impl SemanticGraph {
         for node_id in node_ids {
             if let Some(node) = self.nodes.get(&node_id) {
                 if let Some(pattern) = self.analyze_node_pattern(node) {
-                    self.pattern_cache.entry(pattern as u64).or_insert_with(Vec::new).push(node_id);
+                    self.pattern_cache.entry(pattern as u64).or_default().push(node_id);
                 }
             }
         }

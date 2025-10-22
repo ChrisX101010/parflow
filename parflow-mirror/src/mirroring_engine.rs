@@ -2,6 +2,7 @@ use anyhow::Result;
 use colored::*;
 use serde::Serialize;
 
+#[derive(Default)]
 pub struct MirroringEngine;
 
 impl MirroringEngine {
@@ -48,7 +49,6 @@ impl MirroringEngine {
         })
     }
 
-    // ADD THIS MISSING METHOD WITH MOCK TYPES
     pub async fn mirror_with_dependencies(
         &self,
         source_path: &str,
@@ -167,7 +167,6 @@ pub struct MirroringResult {
     pub warnings: Vec<String>,
 }
 
-// ADD THESE MOCK TYPES TO REPLACE THE EXTERNAL DEPENDENCY
 #[derive(Debug, Serialize)]
 pub struct MockCrateRecommendations {
     pub target_language: String,
@@ -207,6 +206,7 @@ pub struct CompatibilityReport {
 }
 
 // LanguageTranslator struct (referenced in CLI)
+#[derive(Default)]
 pub struct LanguageTranslator;
 
 impl LanguageTranslator {

@@ -17,6 +17,7 @@ pub enum BoostType {
     DataProcessing,
 }
 
+#[derive(Default)]
 pub struct LiveCollaborationEngine;
 
 impl LiveCollaborationEngine {

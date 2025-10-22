@@ -122,6 +122,7 @@ pub struct EnvironmentMirroringResult {
 }
 
 // Main orchestrator with mock implementations
+#[derive(Default)]
 pub struct CrateOrchestrator;
 
 impl CrateOrchestrator {
@@ -185,10 +186,30 @@ impl CrateOrchestrator {
         target_language: &str,
     ) -> Result<EnvironmentMirroringResult> {
         println!(
-            "{} {} {} {}",
+        println!(
+            "{} {} → {}",
             "🔄 Mirroring development environment:".bright_blue(),
             source_path,
-            "→",
+            target_path
+        );
+        println!(
+            "{} {} → {}",
+            "🔄 Mirroring development environment:".bright_blue(),
+            source_path,
+            target_path
+        );
+        println!(
+            "{} {} → {}",
+            "🔄 Mirroring development environment:".bright_blue(),
+            source_path,
+            target_path
+        );
+        println!(
+            "{} {} → {}",
+            "🔄 Mirroring development environment:".bright_blue(),
+            source_path,
+            target_path
+        );
             target_path
         );
 

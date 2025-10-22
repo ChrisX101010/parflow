@@ -1,6 +1,6 @@
 // semantic-compiler/examples/basic_usage.rs
 use semantic_compiler::{
-    CrossLanguageAnalyzer, PatternType, SemanticGraph, SemanticNode, NodeType
+    CrossLanguageAnalyzer, NodeType, PatternType, SemanticGraph, SemanticNode,
 };
 use std::collections::HashMap;
 
@@ -46,7 +46,7 @@ fn main() {
 
     // Test CrossLanguageAnalyzer - it's a unit struct, use directly
     let analyzer = CrossLanguageAnalyzer;
-    
+
     // Test pattern recognition - use ALL actual variants
     println!("📊 Available Pattern Types:");
     println!("  - {:?}", PatternType::FibonacciLike);
@@ -63,7 +63,7 @@ fn main() {
     // Test multi-language project analysis
     let graphs = vec![rust_graph, python_graph];
     let _project_analysis = CrossLanguageAnalyzer::analyze_multi_language_project(graphs);
-    
+
     println!("📈 Multi-language project analysis completed!");
 
     // Test migration suggestions
@@ -92,7 +92,8 @@ fn main() {
         println!("🎯 Optimal language for FibonacciLike: {}", optimal_lang);
     }
 
-    if let Some(optimal_lang) = analyzer.get_optimal_language(&PatternType::MathematicalComputation) {
+    if let Some(optimal_lang) = analyzer.get_optimal_language(&PatternType::MathematicalComputation)
+    {
         println!("🎯 Optimal language for MathematicalComputation: {}", optimal_lang);
     }
 
@@ -108,7 +109,7 @@ fn main() {
     };
     test_graph.add_node(test_node);
     test_graph.root_nodes.push(1);
-    
+
     let hash = test_graph.calculate_semantic_hash();
     println!("🔢 Semantic hash: {}", hash);
 

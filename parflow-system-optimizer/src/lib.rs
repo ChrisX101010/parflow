@@ -138,6 +138,7 @@ pub struct AIPattern {
     pub suggestion: String,
 }
 
+#[derive(Default)]
 pub struct SystemOptimizer;
 
 impl SystemOptimizer {

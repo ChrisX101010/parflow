@@ -31,7 +31,7 @@ pub struct ParticipantResources {
     pub network_bandwidth_mbps: f64,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CursorPosition {
     pub line: u32,
     pub column: u32,
@@ -112,6 +112,7 @@ pub enum ParticipantRole {
     ResourceProvider,
 }
 
+#[derive(Default)]
 pub struct LiveServer {
     sessions: Arc<DashMap<String, LiveSession>>,
     broadcast_senders: Arc<DashMap<String, broadcast::Sender<LiveUpdate>>>,
@@ -469,11 +470,12 @@ impl Default for ParticipantResources {
     }
 }
 
-impl Default for CursorPosition {
-    fn default() -> Self {
-        Self { line: 0, column: 0, filename: None }
-    }
-}
+// Remove the manual Default implementation since we're using #[derive(Default)]
+// impl Default for CursorPosition {
+//     fn default() -> Self {
+//         Self { line: 0, column: 0, filename: None }
+//     }
+// }
 
 impl Default for CompilationStatus {
     fn default() -> Self {

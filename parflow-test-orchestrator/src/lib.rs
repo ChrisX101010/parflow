@@ -15,7 +15,6 @@ pub struct TestResult {
     pub tests_failed: usize,
     pub duration_seconds: f64,
     pub coverage_percentage: f64,
-    // ADD THIS MISSING FIELD
     pub performance_metrics: TestPerformance,
 }
 
@@ -37,6 +36,7 @@ pub struct TestAnalysis {
     pub optimization_suggestions: Vec<String>,
 }
 
+#[derive(Default)]
 pub struct TestOrchestrator;
 
 impl TestOrchestrator {
@@ -63,7 +63,6 @@ impl TestOrchestrator {
             tests_failed: 0,
             duration_seconds: 2.5,
             coverage_percentage: 85.0,
-            // ADD THE PERFORMANCE METRICS
             performance_metrics: TestPerformance {
                 execution_time_ms: 8500,
                 memory_usage_mb: 120.5,
